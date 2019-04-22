@@ -152,9 +152,10 @@ fileprivate extension GeoTrackAnalyzer {
         }
 
         // If we haven't added the last one to the collapsed list yet, then do it now:
-        if last != collapsed.last {
+        guard let lastCollapsed = collapsed.last else {return collapsed }
+        if last != lastCollapsed {
             if last.direction == .unknown {
-                var clast = collapsed.removeLast()
+                var clast = collapsed.removeLast() //FIXME: Can't remove element from empty list crash
                 clast = clast.combine(with: last, direction: clast.direction)
                 collapsed.append(clast)
             } else {
